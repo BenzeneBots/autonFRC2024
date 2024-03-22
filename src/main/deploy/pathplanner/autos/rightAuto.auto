@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.5,
-      "y": 5.5
+      "x": 0.64,
+      "y": 6.74
     },
-    "rotation": 0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -18,22 +18,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakelower"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "pivotLower"
-                }
-              }
-            ]
+            "name": "pivotLower"
           }
         },
         {
@@ -43,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "center"
+                  "pathName": "Right"
                 }
               },
               {
@@ -62,27 +49,21 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "goCenter"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "pivotRaise"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Shoot"
+            "pathName": "rightPositionBack"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "center"
+            "name": "Shoot"
           }
         }
       ]

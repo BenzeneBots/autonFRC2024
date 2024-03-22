@@ -134,30 +134,33 @@ public class RobotContainer {
        //getStartingPose();
 
         Pose2d startingPose = PathPlannerAuto.getStaringPoseFromAutoFile("centerAuto");
+       // Pose2d startingPose = PathPlannerAuto.getStaringPoseFromAutoFile("rightAuto");
+        //In case we want to use the right auto due to alliance issues
 
         NamedCommands.registerCommand("Shoot", new Command() {
-                    private final Timer time = new Timer();
+            private final Timer time = new Timer();
 
-                    @Override
-                    public void initialize() {
-                        time.start();
-                    }
+            @Override
+            public void initialize() {
+                time.start();
+            }
 
-                    @Override
-                    public void execute() {
-                        while (time.get() < 2) {
-                            mShooter.shoot();
-                        }
-                    }
-                    @Override
-                    public void end(boolean interrupted) {
-                        if (time.get() >2){
-                            mShooter.stopShoot();
-                            boolean isFinished = true;
-                        }
+            @Override
+            public void execute() {
+                while (time.get() < 2) {
+                    mShooter.shoot();
+                }
+            }
 
-                    }
-                });
+            @Override
+            public boolean isFinished() {
+                if (time.get() > 2) {
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        });
         NamedCommands.registerCommand("Index", new Command() {
 
             private final Timer time = new Timer();
@@ -172,8 +175,12 @@ public class RobotContainer {
                 }
             }
             @Override
-            public void end(boolean interrupted){
-                //mShooter.stopIndex();
+            public boolean isFinished() {
+                if (time.get() > 2) {
+                    return true;
+                }else{
+                    return false;
+                }
             }
         });
         NamedCommands.registerCommand("intakeLower", new Command() {
@@ -190,9 +197,11 @@ public class RobotContainer {
                     }
             }
             @Override
-            public void end(boolean interrupted){
-                while(time.get() >2) {
-                    mIntake.halt();
+            public boolean isFinished() {
+                if (time.get() > 2) {
+                    return true;
+                }else{
+                    return false;
                 }
             }
         });
@@ -209,15 +218,16 @@ public class RobotContainer {
                     mIntake.feed();
                 }
             }
-            public void end(boolean inerrupted){
-                if (time.get() >2){
-                    boolean isFinished = true;
+            @Override
+            public boolean isFinished() {
+                if (time.get() > 2) {
+                    return true;
+                }else{
+                    return false;
                 }
             }
-
         });
-
-        NamedCommands.registerCommand("Pivot", new Command() {
+        NamedCommands.registerCommand("pivotRaise", new Command() {
             private final Timer time = new Timer();
             @Override
             public void initialize() {
@@ -230,9 +240,34 @@ public class RobotContainer {
                 }
             }
             @Override
-            public void end(boolean interrupted) {
-                mPivot.stop();
-                    }
+            public boolean isFinished() {
+                if (time.get() > 2) {
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        });
+        NamedCommands.registerCommand("pivotLower", new Command() {
+            private final Timer time = new Timer();
+            @Override
+            public void initialize() {
+                time.start();
+            }
+            @Override
+            public void execute() {
+                while (time.get() < 2) {
+                    mPivot.lower();
+                }
+            }
+            @Override
+            public boolean isFinished() {
+                if (time.get() > 2) {
+                    return true;
+                }else{
+                    return false;
+                }
+            }
         });
         PathPlannerPath path1 = PathPlannerPath.fromPathFile("center");
         PathPlannerPath path2 = PathPlannerPath.fromPathFile("back");
@@ -375,17 +410,4 @@ public class RobotContainer {
   
   // ToDo - Disable this function during competition. Required only for development and testing purpose.
 
-  public void periodicRefresh(boolean simState) {    
-    Pose2d visionRobotPose = new Pose2d();
-    if (simState) {
-       visionRobotPose = new Pose2d(11.753862616734166,2.540550112908883, new Rotation2d(0));
-       if (m_visualizer != null) m_visualizer.periodic();
-    }
-    else{
-      visionRobotPose = m_VisionAprilTag.getRobotPose2D();
-      //limelight.amp_center(m_VisionAprilTag.getDesiredRobotPose());
-    }
-    m_FieldTelemetry.periodicPoseOfField("Robot", visionRobotPose);
-  }
-  
 }
