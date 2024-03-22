@@ -1,0 +1,11 @@
+[
+  {
+    "name": "/ShooterControls/SetDutCycle",
+    "type": "double",
+    "value": 0.25,
+    "properties": {
+      "persistent": true,
+      "retained": true
+    }
+  }
+]
